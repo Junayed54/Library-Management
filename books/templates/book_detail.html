@@ -1,0 +1,35 @@
+{% extends 'home.html' %}
+
+{% block title %}{{ book.name }} - Book Details{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+  <div class="p-4">
+    <h1 class="text-3xl font-bold mb-4">{{ book.name }}</h1>
+    <div class="flex flex-col sm:flex-row sm:items-center mb-6">
+      <div class="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4 w-full sm:w-64 h-64 bg-gray-200 rounded-lg shadow-lg" 
+           style="background-image: url('{{ book.image.url }}'); background-size: cover; background-position: center;">
+      </div>
+      <div>
+        <p class="text-sm text-gray-600 mb-2">{{ book.get_category_display }}</p>
+        <p class="text-lg text-gray-800 mb-2">ISBN: {{ book.isbn }}</p>
+        <p class="text-lg text-gray-800 mb-2">Author: {{ book.author }}</p>
+        <p class="text-lg text-gray-800 mb-2">Publication: {{ book.publication }}</p>
+        <p class="text-lg text-gray-800 mb-2">Quantity: {{ book.quantity }}</p>
+        <p class="text-lg text-gray-800 mb-2">Available: {% if book.availability %}Yes{% else %}No{% endif %}</p>
+        <p class="text-lg text-gray-800 mb-2">Publication Date: {{ book.publication_date|date:"F j, Y" }}</p>
+      </div>
+    </div>
+    <p class="text-lg text-gray-800 mb-4">Description:</p>
+    <p class="text-base text-gray-700 leading-relaxed mb-4">{{ book.description }}</p>
+    {% if book.availability %}
+    <form action="{% url 'borrow_book' book.id %}" method="POST" class="mt-4">
+      {% csrf_token %}
+      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg focus:outline-none">Borrow</button>
+    </form>
+    {% else %}
+    <p class="text-red-500 mt-4">This book is currently not available for borrowing.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

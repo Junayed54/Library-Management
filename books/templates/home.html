@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Management System</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <nav class="bg-gray-900 text-white">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between py-4">
+        <a class="text-2xl font-bold" href="/">Online Library</a>
+        <button class="lg:hidden" id="navbar-toggler">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+        <div class="hidden lg:flex lg:flex-grow lg:items-center lg:ml-4" id="navbarSupportedContent">
+          <ul class="flex flex-grow justify-end flex-wrap items-center">
+            <li class="mr-3">
+              <a class="text-white hover:text-gray-300" href="{% url 'home' %}">Home</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="mr-3">
+              <a href="{% url 'profile' %}" class="text-white hover:text-gray-300">Profile</a>
+            </li>
+            <li class="mr-3">
+              <a href="{% url 'logout' %}" class="text-white hover:text-gray-300">Logout</a>
+            </li>
+            {% else %}
+            <li class="mr-3">
+              <a href="{% url 'signin' %}" class="text-white hover:text-gray-300">Sign In</a>
+            </li>
+            <li>
+              <a href="{% url 'signup' %}" class="text-white hover:text-gray-300">Sign Up</a>
+            </li>
+            {% endif %}
+          </ul>
+          <form class="flex lg:ml-6 mt-4 lg:mt-0">
+            <input class="bg-gray-800 text-white px-4 py-2 rounded-lg focus:outline-none focus:bg-gray-700" type="search" placeholder="Search" aria-label="Search">
+            <button class="ml-2 bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-600 focus:outline-none">Search</button>
+          </form>
+        </div>
+      </div>
+      <div class="lg:hidden hidden" id="mobile-menu">
+        <ul class="flex flex-col mt-2">
+          <li class="mb-2">
+            <a class="text-white hover:text-gray-300" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="mb-2">
+            <a class="text-white hover:text-gray-300" href="{% url 'book_list' %}">Books</a>
+          </li>
+          
+          {% if user.is_authenticated %}
+          <li class="mb-2">
+            <a href="{% url 'profile' %}" class="text-white hover:text-gray-300">Profile</a>
+          </li>
+          <li>
+            <a href="{% url 'logout' %}" class="text-white hover:text-gray-300">Logout</a>
+          </li>
+          {% else %}
+          <li class="mb-2">
+            <a href="{% url 'signin' %}" class="text-white hover:text-gray-300">Sign In</a>
+          </li>
+          <li>
+            <a href="{% url 'signup' %}" class="text-white hover:text-gray-300">Sign Up</a>
+          </li>
+          {% endif %}
+
+          <li>
+            <form class="mt-4 md:max-lg:mb-4">
+              <input class="bg-gray-800 text-white px-4 py-2 rounded-lg focus:outline-none focus:bg-gray-700" type="search" placeholder="Search" aria-label="Search">
+              <button class="mt-2 bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-600 focus:outline-none">Search</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="w-full mt-8">
+    {% if request.path == '/' %}
+    <div class="container mx-auto my-8 px-4 w-full">
+      <h1 class="text-3xl font-bold text-center mb-8">Welcome to My Library</h1>
+      <!-- Your content here -->
+    </div>
+    {% endif %}
+    
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <script>
+    document.getElementById('navbar-toggler').addEventListener('click', function() {
+      var mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.remove('hidden');
+      } else {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

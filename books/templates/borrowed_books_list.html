@@ -1,0 +1,27 @@
+{% extends 'home.html' %}
+
+{% block title %}Borrowed Books{% endblock %}
+
+{% block content %}
+<div class="container mx-auto my-8 px-4">
+  <h1 class="text-3xl font-bold mb-8">Borrowed Books</h1>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for borrowed_book in borrowed_books %}
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="p-4">
+        <h2 class="text-xl font-bold mb-2">{{ borrowed_book.book.name }}</h2>
+        <p class="text-sm text-gray-600 mb-2">Borrowed on: {{ borrowed_book.borrow_date }}</p>
+        <p class="text-sm text-gray-600 mb-2">Due Date: {{ borrowed_book.due_date }}</p>
+        {% if borrowed_book.return_date %}
+        <p class="text-sm text-gray-600 mb-2">Returned on: {{ borrowed_book.return_date }}</p>
+        {% endif %}
+        {% if borrowed_book.fine_amount > 0 %}
+        <p class="text-sm text-red-600 font-bold mb-2">Fine: ${{ borrowed_book.fine_amount }}</p>
+        {% endif %}
+        <a href="{% url 'return_book' borrowed_book.pk %}" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Return Book</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

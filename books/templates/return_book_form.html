@@ -1,0 +1,22 @@
+{% extends 'home.html' %}
+
+{% block title %}Return {{ borrowed_book.book.name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+  <div class="p-4">
+    <h1 class="text-3xl font-bold mb-2">Return {{ borrowed_book.book.name }}</h1>
+    <form action="{% url 'return_book' borrowed_book.pk %}" method="POST" class="mt-4">
+      {% csrf_token %}
+      <div class="mb-4">
+        <label for="return_date" class="block text-gray-700 text-sm font-bold mb-2">Return Date:</label>
+        <input type="date" id="return_date" name="return_date" class="bg-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:bg-white" required>
+      </div>
+      <button type="submit" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Return Book</button>
+    </form>
+    {% if borrowed_book.fine_amount > 0 %}
+    <p class="text-sm text-red-600 font-bold mt-4">You have a fine of ${{ borrowed_book.fine_amount }} for returning the book late.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

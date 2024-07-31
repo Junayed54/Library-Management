@@ -1,0 +1,14 @@
+{% extends 'home.html' %}
+{% block title %}Sign In - Library Management System{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold mb-4">Sign In</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ form.non_field_errors }}
+    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg mt-4">Sign In</button>
+  </form>
+</div>
+{% endblock %}

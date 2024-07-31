@@ -1,0 +1,37 @@
+{% extends 'home.html' %}
+
+{% block title %}All Books{% endblock %}
+
+{% block content %}
+<div class="container mx-auto my-8 px-4">
+  <h1 class="text-3xl font-bold mb-8">All Books</h1>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for book in books %}
+    <div class="relative bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="p-4 flex flex-col h-full">
+        <div class="aspect-w-1 aspect-h-1">
+          <img src="{{ book.image.url }}" alt="{{ book.name }}" class="w-full h-full object-cover">
+        </div>
+        <div class="mt-4">
+          <h2 class="text-xl font-bold mb-2">{{ book.name }}</h2>
+          <p class="text-sm text-gray-600 mb-2">{{ book.get_category_display }}</p>
+          <div class="description text-base text-gray-700 leading-relaxed mb-4 line-clamp-2">{{ book.description }}</div>
+        </div>
+        <div class="mt-auto">
+          <a href="{% url 'book_detail' book.id %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">View Details</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+{% endblock %}
